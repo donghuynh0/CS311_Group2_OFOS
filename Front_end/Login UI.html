@@ -1,0 +1,145 @@
+<html>
+ <head>
+  <meta charset="utf-8">
+  <title>
+   BlackWolf Login
+  </title>
+  <script src="https://unpkg.com/react/umd/react.development.js">
+  </script>
+  <script src="https://unpkg.com/react-dom/umd/react-dom.development.js">
+  </script>
+  <script src="https://unpkg.com/@babel/standalone/babel.js">
+  </script>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+  <style>
+   @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+  </style>
+ </head>
+ <body class="bg-[#0066AD] flex items-center justify-center h-screen">
+  <div class="absolute top-0 left-0 right-0 bg-white flex justify-between items-center px-4 py-2">
+   <div class="flex items-center">
+    <img alt="BlackWolf logo" class="mr-2" height="30" src="Picture/Logo/Logo 30x30.png" width="30"/>
+    <span class="text-[#000000] text-xl font-bold">
+     BlackWolf
+    </span>
+   </div>
+   <div class="text-[#0066AD] text-sm">
+    Need help?
+   </div>
+  </div>
+  <div class="flex flex-col items-center">
+   <div class="text-center mb-8">
+    <img alt="BlackWolf bag logo" class="mx-auto mb-4" height="100" src="Picture/Logo/Logo 100x100.png" width="100"/>
+    <h1 class="text-white text-4xl font-bold">
+     BlackWolf
+    </h1>
+    <p class="text-white text-lg">
+     The best delivery all over the Milky Way
+    </p>
+   </div>
+   <div id="form-container" class="bg-white p-8 rounded shadow-md w-96">
+    <h2 class="text-2xl font-bold mb-4" id="form-title">
+     Login
+    </h2>
+    <button class="bg-[#000000] text-white py-2 px-4 rounded mb-4 flex items-center justify-center w-full">
+     <i class="fas fa-qrcode mr-2">
+     </i>
+     Login with QR code
+    </button>
+    <input class="border border-gray-300 rounded w-full py-2 px-3 mb-4" id="email" placeholder="Your Email" type="text"/>
+    <input class="border border-gray-300 rounded w-full py-2 px-3 mb-4" id="phone_number" placeholder="Phone Number" type="phone_number"/>
+    <button class="bg-[#000000] text-white py-2 px-4 rounded w-full mb-4" onclick="handleLogin()">
+     LOGIN
+    </button>
+    <div class="flex justify-between text-sm mb-4">
+     <a class="text-[#0066AD]" href="Forgot password.html">
+      Forgot password
+     </a>
+    </div>
+    <div class="text-center text-sm">
+     New to BlackWolf?
+     <a class="text-[#0066AD]" href="#" onclick="showSignUpForm(event)">
+      Sign up
+     </a>
+    </div>
+   </div>
+  </div>
+  <script>
+   function handleLogin() {
+      const username = document.getElementById('email').value;
+      const password = document.getElementById('phone_number').value;
+
+      if (username && password) {
+          window.location.href = "Main page.html";
+      } else {
+          alert("Please enter your account information!");
+      }
+    }
+
+    function showSignUpForm(event) {
+      event.preventDefault();
+      const formContainer = document.getElementById('form-container');
+      formContainer.innerHTML = `
+        <h2 class="text-2xl font-bold mb-4" id="form-title">Sign Up</h2>
+        <input class="border border-gray-300 rounded w-full py-2 px-3 mb-4" id="email" placeholder="Email" type="text"/>
+        <input class="border border-gray-300 rounded w-full py-2 px-3 mb-4" id="phone_number" placeholder="Phone number" type="phone_number"/>
+        <input class="border border-gray-300 rounded w-full py-2 px-3 mb-4" id="confirm-password" placeholder="Confirm Password" type="password"/>
+        <button class="bg-[#000000] text-white py-2 px-4 rounded w-full mb-4" onclick="handleSignUp()">SIGN UP</button>
+        <div class="text-center text-sm">
+          Already have an account?
+          <a class="text-[#0066AD]" href="#" onclick="showLoginForm(event)">Login</a>
+        </div>
+      `;
+    }
+
+    function showLoginForm(event) {
+      event.preventDefault();
+      const formContainer = document.getElementById('form-container');
+      formContainer.innerHTML = `
+        <h2 class="text-2xl font-bold mb-4" id="form-title">Login</h2>
+        <button class="bg-[#000000] text-white py-2 px-4 rounded mb-4 flex items-center justify-center w-full">
+          <i class="fas fa-qrcode mr-2"></i>
+          Login with QR code
+        </button>
+        <input class="border border-gray-300 rounded w-full py-2 px-3 mb-4" id="username" placeholder="Email" type="text"/>
+        <input class="border border-gray-300 rounded w-full py-2 px-3 mb-4" id="phone_number" placeholder="Phone number" type="password"/>
+        <button class="bg-[#000000] text-white py-2 px-4 rounded w-full mb-4" onclick="handleLogin()">LOGIN</button>
+        <div class="flex justify-between text-sm mb-4">
+          <a class="text-[#0066AD]" href="Forgot password.html">Forgot password</a>
+        </div>
+        <div class="text-center text-sm">
+          New to BlackWolf?
+          <a class="text-[#0066AD]" href="#" onclick="showSignUpForm(event)">Sign up</a>
+        </div>
+      `;
+    }
+
+    function handleSignUp() {
+      const email = document.getElementById('email').value;
+      const phone_number = document.getElementById('phone_number').value;
+      const confirmPhone_Number = document.getElementById('confirm-phone_number').value;
+
+      if (username && password && confirmPassword) {
+          if (phone_number === confirmPhone_Number) {
+              alert("Sign up successful!");
+              showLoginForm(event);
+          } else {
+              alert("Phone number do not match!");
+          }
+      } else {
+          alert("Please fill in all fields!");
+      }
+    }
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter') {
+        handleLogin();
+      }
+    });
+  </script>
+ </body>
+</html>
