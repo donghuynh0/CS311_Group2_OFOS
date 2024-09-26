@@ -5,6 +5,8 @@ import pymysql
 app = Flask(__name__)
 CORS(app)
 
+print('something')
+
 def db_connection():
     conn = None
     try:
