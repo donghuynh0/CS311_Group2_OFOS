@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlackWolf Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-[#0066AD] flex items-center justify-center h-screen">
+
+    <div class="flex flex-col items-center">
+        <div class="text-center mb-8">
+            <img src="/static/images/Logo/Logo 100x100.png" alt="BlackWolf Logo" class="mx-auto mb-4" width="100" height="100">
+            <h1 class="text-white text-4xl font-bold">BlackWolf</h1>
+            <p class="text-white text-lg">The best delivery all over the Milky Way</p>
+        </div>
+
+        <div id="form-container" class="bg-white p-8 rounded shadow-md w-96">
+            <h2 class="text-2xl font-bold mb-4">Login</h2>
+
+            <!-- Check for flash messages and display them -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="mb-4" id="flash-message">
+                        {% for category, message in messages %}
+                            <div class="bg-red-100 text-red-700 border border-red-400 rounded p-2">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <form id="login-form" method="POST" action="/login">
+                <input type="text" name="email" id="email" placeholder="Your Email"
+                    class="border border-gray-300 rounded w-full py-2 px-3 mb-4" required>
+                <input type="password" name="phone_number" id="phone_number" placeholder="Phone Number"
+                    class="border border-gray-300 rounded w-full py-2 px-3 mb-4" required>
+                <button type="submit" class="bg-[#000000] text-white py-2 px-4 rounded w-full mb-4">LOGIN</button>
+            </form>
+
+            <div class="text-center text-sm">
+                New to BlackWolf? <a href="/signup" class="text-[#0066AD]" onclick="showSignUpForm(event)">Sign up</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const flashMessage = document.getElementById('flash-message');
+            if (flashMessage) {
+                setTimeout(() => {
+                    flashMessage.style.display = 'none';  // hide message
+                }, 2000);  // display in 2s
+            }
+        });
+
+        // enter 
+        document.getElementById('login-form').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();  
+                this.submit();  
+            }
+        });
+    </script>
+
+</body>
+</html>

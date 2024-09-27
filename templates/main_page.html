@@ -1,0 +1,108 @@
+<html><head><meta charset="utf-8"></head><head></head><body>
+    <title>BlackWolf_Food</title>
+    <script src="https://unpkg.com/react/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-image: url('/static/images/background\ FHD.jpeg');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+
+
+    <div id="root"></div>
+    <script type="text/babel">
+        const App = ({ cust_name }) => {
+            return (
+                <div className="text-white">
+                    <header className="bg-white shadow-md">
+                        <div className="container mx-auto flex justify-between items-center py-4 px-6">
+                            <div className="flex items-center">
+                                <img src="/static/images/Logo/Logo 40x40.png" alt="BlackWolf Logo" className="h-8"/>
+                            </div>
+                            <nav className="flex items-center space-x-6">
+                                <a href="#" className="text-red-500 font-semibold">FOOD</a>
+                                <a href="#" className="text-gray-700">SUPERMARKET</a>
+                            </nav>
+                            <div className="flex items-center space-x-4">
+                                <i className="fas fa-search text-gray-700"></i>
+                                {cust_name ? (
+                                    <a href="/customer_info" className="bg-blue-500 text-white px-4 py-2 rounded-md">{cust_name}</a>
+                                ) : (
+                                    <a href="/login" className="bg-blue-500 text-white px-4 py-2 rounded-md">Login</a>
+                                )}
+                                <img src="/static/images/VN Flag.png" alt="Vietnam Flag" className="h-5"/>
+                            </div>
+                        </div>
+                    </header>
+                    <main className="container mx-auto mt-10 px-6">
+                        <div className="text-center">
+                            <h1 className="text-3xl font-bold">Đặt Đồ ăn, giao hàng ngay tức khắc'...</h1>
+                            <p className="mt-2">Có 431 Địa Điểm Ở Nam Định Từ 00:00 - 23:59</p>
+                            <div className="mt-6 flex justify-center">
+                                <input type="text" placeholder="Tìm địa điểm, món ăn, địa chỉ..." className="w-1/2 px-4 py-2 rounded-l-md"/>
+                                <button className="bg-blue-500 px-4 py-2 rounded-r-md"><i className="fas fa-search text-white"></i></button>
+                            </div>
+                            <div className="mt-6 flex flex-wrap justify-center space-x-2">
+                                {['All', 'Đồ ăn', 'Đồ uống', 'Đồ chay', 'Bánh kem', 'Tráng miệng', 'Pizza/Burger', 'Món lẩu', 'Sushi', 'Mì phở', 'Cơm hộp'].map(category => (
+                                    <button key={category} className="bg-gray-800 text-white px-4 py-2 rounded-md mt-2">{category}</button>
+                                ))}
+                            </div>
+                            <div className="mt-6">
+                                <p>Sử dụng App BlackWolf_Food để có nhiều giảm giá và trải nghiệm tốt hơn</p>
+                                <div className="flex justify-center space-x-4 mt-2">
+                                    <img src="/static/images/DL_logo/app_store.jpg" alt="App Store" className="h-12"/>
+                                    <img src="/static/images/DL_logo/gg play.png" alt="Google Play" className="h-12"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="mt-10">
+                            <div className="flex justify-between items-center">
+                                <h2 className="text-2xl font-bold text-white">Ưu đãi</h2>
+                                <a href="#" className="text-blue-500">Xem tất cả</a>
+                            </div>
+                            <div className="grid grid-cols-3 gap-4 mt-4">
+                                {[
+                                    { title: 'The Pizza Company', description: 'Khu đô thị mới Hòa Vượng...', img: '/static/images/Logo Restaurant/pizza company.jpeg', liked: true, discount: 'Select' },
+                                    { title: 'Gà Rán KFC', description: 'Shop 15/GF, Trung Tâm Thươ...', img: '/static/images/Logo Restaurant/kfc.png', liked: true, discount: 'Select' },
+                                    { title: "McDonald's", description: 'Số 19 Bùi Tấn, P. Lộc Vượng...', img: '/static/images/Logo Restaurant/mcd.png', liked: true, discount: 'Select' },
+                                    { title: 'Lotteria - Nam Định GO', description: 'Tầng 1, TTTM VA Siêu Thị Th...', img: '/static/images/Logo Restaurant/lotte.png', liked: true, discount: 'Select' },
+                                    { title: 'Highlands Coffee', description: '91 Điện Biên, P. Cửa Bắc, Tp...', img: '/static/images/Logo Restaurant/highland.png', liked: true, discount: 'Select' },
+                                    { title: 'Chicken Plus', description: 'Kiot số 6 Đường Trần Phú, P...', img: '/static/images/Logo Restaurant/ckp.jpg', liked: true, discount: 'Select' },
+                                    { title: 'Dookki', description: '133 Bến Ngự, P. Phan Đình Ph...', img: '/static/images/Logo Restaurant/dooki.jpg', liked: true, discount: 'Select' },
+                                    { title: 'KOI Thé', description: 'TTTM Go Nam Định, P. Lộc Vư...', img: '/static/images/Logo Restaurant/Koi.jpg', liked: true, discount: 'Select' },
+                                    { title: 'Haidilao', description: 'Số 12, Lô 2. Khu TDC Hồ Bà...', img: '/static/images/Logo Restaurant/haidilao.jpg', liked: true, discount: 'Select' }
+                                ].map((item, index) => (
+                                    <div key={index} className="bg-white rounded-md p-4">
+                                        <img src={item.img} alt={item.title} className="w-full h-32 object-cover rounded-md"/>
+                                        <div className="mt-2">
+                                            <div className="flex justify-between items-center">
+                                                <h3 className="text-lg font-semibold text-gray-800">{item.title}</h3>
+                                                {item.liked && <i className="fas fa-heart text-red-500"></i>}
+                                            </div>
+                                            <p className="text-gray-600">{item.description}</p>
+                                            <button className="bg-blue-500 text-white px-2 py-1 rounded-md mt-2">{item.discount}</button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="mt-4 text-center">
+                                <a href="#" className="text-blue-500">Xem thêm</a>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            );
+        };
+
+        const cust_name = "{{ cust_name }}";
+        ReactDOM.render(<App cust_name={cust_name !== 'None' ? cust_name : null} />, document.getElementById('root'));
+    </script>
+
+</body></html>
