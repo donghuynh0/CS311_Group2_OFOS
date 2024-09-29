@@ -2,8 +2,9 @@ from flask import Flask, session, render_template
 from flask_cors import CORS
 import os
 from db import init_app
-from auth import auth
-from customer import customer 
+from auth import auth_bp
+from customer import customer_bp
+
 
 app = Flask(__name__)
 CORS(app)
@@ -12,8 +13,8 @@ app.secret_key = os.urandom(24)
 init_app(app)
 
 # register blueprints
-app.register_blueprint(auth)
-app.register_blueprint(customer)
+app.register_blueprint(auth_bp)
+app.register_blueprint(customer_bp)
 
 
 @app.route('/')
