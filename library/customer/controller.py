@@ -9,8 +9,12 @@ def signup():
         response = signup_service(request.form)  
 
         if response[1] == 200:  
-            flash("Sign up successful! Please log in.", "success")
-            return redirect(url_for('customer.login'))  
+            flash(response[0].json['message'], "success_signup")
+            return redirect(url_for('customer.login'))
+        
+        elif response[1] == 400:
+            flash(response[0].json['message'], "error_signup")
+            return redirect(url_for('customer.signup'))
 
         flash(response[0].json['message'], "error")
         return redirect(url_for('customer.signup'))
@@ -34,9 +38,9 @@ def login():
 
 @customer.route('/logout')
 def logout():
-    logout_response = logout_service()
-    if logout_response[1] == 200:
-        flash("Logged out successfully!", "success")
+    response = logout_service()
+    if response[1] == 200:
+        flash(response[0].json['message'], "success_logout") 
         return redirect(url_for('main_page'))
     
 

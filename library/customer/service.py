@@ -8,6 +8,9 @@ def signup(form_data):
     email = form_data.get('email')
 
     if cust_name and contact_number and email:
+        existing_customer = Customer.query.filter_by(email=email).first()
+        if existing_customer:
+            return jsonify({"message": "Email is already registered. Please use a different email."}), 400
         try:
             new_customer = Customer(cust_name=cust_name, contact_number=contact_number, email=email)
             db.session.add(new_customer)
