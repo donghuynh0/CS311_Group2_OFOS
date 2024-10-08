@@ -1,118 +1,17 @@
-
-<html></html>
- <head>
-  <title>
-   Profile Page
-  </title>
-  <script src="https://cdn.tailwindcss.com">
-  </script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-  <script>
-   function previewImage(event) {
-     const reader = new FileReader();
-     reader.onload = function() {
-       const output = document.getElementById('profileImage');
-       output.src = reader.result;
-     };
-     reader.readAsDataURL(event.target.files[0]);
-   }
-
-   function triggerFileInput() {
-     document.getElementById('fileInput').click();
-   }
-  </script>
- </head>
- <body class="bg-gray-100">
-  <header class="bg-[#0066AD] p-4 flex items-center justify-between">
-   <div class="flex items-center">
-    <img alt="BlackWolf logo" class="mr-2" height="40" src="/library/static/images/Logo/Logo 40x40.png" width="40"/>
-    <span class="text-white text-2xl font-bold">
-     BlackWolf
-    </span>
-   </div>
-   <div class="flex items-center">
-    <input class="p-2 rounded-l-md" placeholder="Search" type="text"/>
-    <button class="bg-white p-2 rounded-r-md">
-     <i class="fas fa-search">
-     </i>
-    </button>
-   </div>
-   <div class="flex items-center">
-    <i class="fas fa-shopping-cart text-white text-2xl">
-    </i>
-    <span class="bg-red-600 text-white rounded-full px-2 ml-1">
-     104
-    </span>
-   </div>
-  </header>
-  <nav class="bg-[#004679] p-2 text-center text-white">
-   <span class="mr-4">
-    Chicken Plus
-   </span>
-   <span class="mr-4">
-    Dookki
-   </span>
-   <span class="mr-4">
-    Haidilao
-   </span>
-   <span class="mr-4">
-    HighLand Coffee
-   </span>
-   <span class="mr-4">
-    KFC
-   </span>
-   <span class="mr-4">
-    KOI THÉ
-   </span>
-   <span class="mr-4">
-    Lotteria
-   </span>
-   <span class="mr-4">
-    MC'Donald
-   </span>
-   <span class="mr-4">
-    Pizza Company
-   </span>  
-  </nav>
-  <div class="flex">
-   <aside class="w-1/4 bg-white p-4">
-    <div class="flex items-center mb-4">
-     <div class="rounded-full mr-2 bg-gray-200" height="50" width="50"></div>
-     <div>
-      <span class="block font-bold">
-       nhiensu0905
-      </span>
-      <a class="text-blue-500" href="#">
-       Edit Profile
-      </a>
-     </div>
-    </div>
-    <ul>
-     <li class="mb-2">
-      <a class="flex items-center text-blue-500" href="#">
-       <i class="fas fa-user mr-2">
-       </i>
-       My Account
-      </a>
-     </li>
-     <li class="mb-2">
-      <a class="flex items-center" href="#">
-       <i class="fas fa-box mr-2">
-       </i>
-       Orders
-      </a>
-     </li>
-    </ul>
-   </aside>
-   <main class="w-3/4 bg-white p-8">
-    <h1 class="text-2xl font-bold mb-2">
-     My Profile
-    </h1>
-    <p class="text-gray-600 mb-4">
-     Manage your profile information to secure your account
-    </p>
-    <div class="flex">
-     <div class="w-2/3">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#0066AD] min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg shadow-2xl p-8 max-w-md w-full space-y-6 transition-all duration-300 hover:shadow-3xl">
+        <div class="flex items-center justify-between mb-4">
+            <h1 class="text-3xl font-bold text-gray-800">Account Profile</h1>
+            <img src="/library/static/images/Logo/Logo 30x30.png" alt="BlackWolf Logo" class="w-10 h-10 object-contain" width="40" height="40">
+        </div>
         <form id="profileForm" class="space-y-4">
             <div class="relative">
                 <label for="fullName" class="block text-sm font-medium text-gray-700">Full Name <span class="text-red-500">*</span></label>
@@ -200,37 +99,33 @@
                 Log Out
             </button>
         </div>
-     </div>
-     <div class="w-1/3 flex flex-col items-center">
-      <img alt="User avatar" class="rounded-full mb-4 bg-gray-200" height="100" id="profileImage" width="100"/>
-      <input accept="image/*" class="hidden" id="fileInput" onchange="previewImage(event)" type="file"/>
-      <button class="bg-gray-200 px-4 py-2 rounded-md" onclick="triggerFileInput()">
-       Choose Image
-      </button>
-      <p class="text-gray-600 mt-2 text-center">
-       Maximum file size 1 MB
-       <br/>
-       Format: .JPEG, .PNG
-      </p>
-     </div>
     </div>
-   </main>
-  </div>
-  <footer class="bg-[#0066AD] p-4 text-white text-center">
-   <div class="flex justify-between">
-    <div class="flex items-center">
-     <i class="fas fa-comments text-2xl">
-     </i>
-     <span class="ml-2">
-      Chat
-     </span>
+    <div id="loadingIndicator" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-white"></div>
     </div>
-    <div class="flex items-center">
-     <span class="bg-red-600 text-white rounded-full px-2">
-      99+
-     </span>
-    </div>
-   </div>
-  </footer>
- </body>
+    <script>
+        document.getElementById('updateButton').addEventListener('click', function() {
+            const form = document.getElementById('profileForm');
+            const fields = ['fullName', 'phoneNumber', 'email', 'address'];
+            let isValid = true;
+
+            fields.forEach(field => {
+                const input = document.getElementById(field);
+                const error = document.getElementById(field + 'Error');
+                if (!input.value.trim()) {
+                    error.classList.remove('hidden');
+                    isValid = false;
+                } else {
+                    error.classList.add('hidden');
+                }
+            });
+
+            if (isValid) {
+                // Proceed with form submission or update logic
+                console.log('Form is valid. Proceeding with update...');
+                // You can add your update logic here
+            }
+        });
+    </script>
+</body>
 </html>
