@@ -1,0 +1,184 @@
+<html>
+<head>
+    <title>Shopping Cart</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const updateTotal = () => {
+                let total = 0;
+                let totalItems = 0;
+                document.querySelectorAll('.product').forEach(product => {
+                    const checkbox = product.querySelector('.product-checkbox');
+                    const price = parseFloat(product.querySelector('.price').dataset.price);
+                    const quantity = parseInt(product.querySelector('.quantity').value);
+                    const subtotal = price * quantity;
+                    product.querySelector('.subtotal').innerText = subtotal.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+                    if (checkbox.checked) {
+                        total += subtotal;
+                        totalItems += quantity;
+                    }
+                });
+                document.querySelector('#total').innerText = total.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+                document.querySelector('#total-items').innerText = totalItems;
+            };
+
+            document.querySelectorAll('.increment').forEach(button => {
+                button.addEventListener('click', function () {
+                    const quantityInput = this.closest('.product').querySelector('.quantity');
+                    quantityInput.value = parseInt(quantityInput.value) + 1;
+                    updateTotal();
+                });
+            });
+
+            document.querySelectorAll('.decrement').forEach(button => {
+                button.addEventListener('click', function () {
+                    const quantityInput = this.closest('.product').querySelector('.quantity');
+                    if (parseInt(quantityInput.value) > 1) {
+                        quantityInput.value = parseInt(quantityInput.value) - 1;
+                        updateTotal();
+                    }
+                });
+            });
+
+            document.querySelectorAll('.quantity').forEach(input => {
+                input.addEventListener('change', updateTotal);
+            });
+
+            document.querySelectorAll('.product-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', updateTotal);
+            });
+
+            document.querySelector('#select-all').addEventListener('change', function () {
+                const isChecked = this.checked;
+                document.querySelectorAll('.product-checkbox').forEach(checkbox => {
+                    checkbox.checked = isChecked;
+                });
+                updateTotal();
+            });
+
+            updateTotal();
+        });
+    </script>
+</head>
+<body class="bg-gray-100">
+    <header class="bg-[#0066AD] text-white p-4 flex justify-between items-center">
+        <div class="flex items-center">
+            <img src="https://via.placeholder.com/30" alt="Logo" class="w-8 h-8 mr-2">
+            <span class="text-2xl font-bold">BlackWolf</span>
+        </div>
+        <div class="flex items-center space-x-4">
+            <div class="relative">
+                <i class="fas fa-bell text-xl"></i>
+                <span class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1">5</span>
+            </div>
+            <a class="hover:underline" href="#">Notifications</a>
+            <a class="hover:underline" href="#">Support</a>
+            <a class="hover:underline" href="#">English</a>
+            <div class="flex items-center">
+                <img alt="User avatar" class="rounded-full" height="30" src="https://storage.googleapis.com/a1aa/image/pzCftg0l1mz4USgeKtw5dEqsiu7fN9fzQ0ls0oqVEk2I1UUOB.jpg" width="30"/>
+                <span class="ml-2">nhiensu0905</span>
+            </div>
+        </div>
+    </header>
+    <main class="max-w-6xl mx-auto mt-4">
+        <div class="flex items-center bg-white p-4 shadow">
+            <input class="flex-grow p-2 border border-gray-300 rounded" placeholder="Search for deals" type="text"/>
+            <button class="bg-[#0066AD] text-white p-2 rounded ml-2">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        <div class="bg-white mt-4 p-4 shadow">
+            <div class="flex items-center border-b pb-2">
+                <input class="mr-2" id="select-all" type="checkbox"/>
+                <span class="font-bold">Select All</span>
+                <span class="ml-auto">Unit Price</span>
+                <span class="ml-16">Quantity</span>
+                <span class="ml-16">Total Price</span>
+                <span class="ml-16">Actions</span>
+            </div>
+            <div class="mt-4">
+                <div class="flex items-center border-b pb-4 mb-4 product">
+                    <input class="mr-2 product-checkbox" type="checkbox"/>
+                    <div class="flex items-center">
+                        <img alt="Product image" class="w-16 h-16 mr-4" height="60" src="https://storage.googleapis.com/a1aa/image/JRJ8XfnV5GWnAa3PVXhod0GQU3qAXwVuXETe5SCfhtkmaKKnA.jpg" width="60"/>
+                        <div>
+                            <span class="font-bold">ZOTAC Gaming GeForce RTX 3060 Twin Edge ...</span>
+                            <div class="text-sm text-gray-500">Waiting for price $7,720.00</div>
+                        </div>
+                    </div>
+                    <div class="ml-auto text-right">
+                        <div class="text-red-600 font-bold price" data-price="7650.00">$7,650.00</div>
+                    </div>
+                    <div class="flex items-center ml-16">
+                        <button class="bg-gray-200 p-2 decrement">-</button>
+                        <input class="w-12 text-center border border-gray-300 mx-2 quantity" type="number" value="1" min="1"/>
+                        <button class="bg-gray-200 p-2 increment">+</button>
+                    </div>
+                    <div class="ml-16 text-red-600 font-bold subtotal">0.00</div>
+                    <div class="ml-16 text-red-600">
+                        <a class="hover:underline" href="#">Delete</a>
+                        <a class="hover:underline block" href="#">Find similar products</a>
+                    </div>
+                </div>
+                <div class="flex items-center border-b pb-4 mb-4 product">
+                    <input class="mr-2 product-checkbox" type="checkbox"/>
+                    <div class="flex items-center">
+                        <img alt="Product image" class="w-16 h-16 mr-4" height="60" src="https://storage.googleapis.com/a1aa/image/JRJ8XfnV5GWnAa3PVXhod0GQU3qAXwVuXETe5SCfhtkmaKKnA.jpg" width="60"/>
+                        <div>
+                            <span class="font-bold">SPARKLE Intel® Arc™ A750 ORC OC Edition 8...</span>
+                            <div class="text-sm text-gray-500">Waiting for price $7,720.00</div>
+                        </div>
+                    </div>
+                    <div class="ml-auto text-right">
+                        <div class="text-red-600 font-bold price" data-price="6590.00">$6,590.00</div>
+                    </div>
+                    <div class="flex items-center ml-16">
+                        <button class="bg-gray-200 p-2 decrement">-</button>
+                        <input class="w-12 text-center border border-gray-300 mx-2 quantity" type="number" value="1" min="1"/>
+                        <button class="bg-gray-200 p-2 increment">+</button>
+                    </div>
+                    <div class="ml-16 text-red-600 font-bold subtotal">0.00</div>
+                    <div class="ml-16 text-red-600">
+                        <a class="hover:underline" href="#">Delete</a>
+                        <a class="hover:underline block" href="#">Find similar products</a>
+                    </div>
+                </div>
+                <div class="flex items-center border-b pb-4 mb-4 product">
+                    <input class="mr-2 product-checkbox" type="checkbox"/>
+                    <div class="flex items-center">
+                        <img alt="Product image" class="w-16 h-16 mr-4" height="60" src="https://storage.googleapis.com/a1aa/image/JRJ8XfnV5GWnAa3PVXhod0GQU3qAXwVuXETe5SCfhtkmaKKnA.jpg" width="60"/>
+                        <div>
+                            <span class="font-bold">Galax RTX 4060 2X V2| D7GL Black GF RTX 40...</span>
+                            <div class="text-sm text-gray-500">Waiting for price $7,720.00</div>
+                        </div>
+                    </div>
+                    <div class="ml-auto text-right">
+                        <div class="text-red-600 font-bold price" data-price="8170.00">$8,170.00</div>
+                    </div>
+                    <div class="flex items-center ml-16">
+                        <button class="bg-gray-200 p-2 decrement">-</button>
+                        <input class="w-12 text-center border border-gray-300 mx-2 quantity" type="number" value="1" min="1"/>
+                        <button class="bg-gray-200 p-2 increment">+</button>
+                    </div>
+                    <div class="ml-16 text-red-600 font-bold subtotal">0.00</div>
+                    <div class="ml-16 text-red-600">
+                        <a class="hover:underline" href="#">Delete</a>
+                        <a class="hover:underline block" href="#">Find similar products</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white mt-4 p-4 shadow flex items-center">
+            <a class="ml-4 text-red-600 hover:underline" href="#">Delete</a>
+            <a class="ml-4 text-red-600 hover:underline" href="#">Remove inactive products</a>
+            <a class="ml-4 text-red-600 hover:underline" href="#">Save to favorites</a>
+            <div class="ml-auto">
+                <span class="font-bold">Total payment (<span id="total-items">0</span> products):</span>
+                <span class="text-red-600 font-bold" id="total">$0.00</span>
+                <button class="bg-red-600 text-white p-2 rounded ml-4">Checkout</button>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
