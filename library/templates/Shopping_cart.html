@@ -81,7 +81,7 @@
             </div>
         </div>
     </header>
-    <main class="max-w-6xl mx-auto mt-4">
+    <main class="max-w-6xl mx-auto mt-4 mb-24">
         <div class="flex items-center bg-white p-4 shadow">
             <input class="flex-grow p-2 border border-gray-300 rounded" placeholder="Search for deals" type="text"/>
             <button class="bg-[#0066AD] text-white p-2 rounded ml-2">
@@ -95,7 +95,6 @@
                 <span class="ml-auto w-32 text-center">Unit Price</span>
                 <span class="w-32 text-center">Quantity</span>
                 <span class="w-32 text-center">Total Price</span>
-                <span class="w-32 text-center">Actions</span>
             </div>
             <div class="mt-4">
                 <div class="flex items-center border-b pb-4 mb-4 product">
@@ -116,10 +115,6 @@
                         <button class="bg-gray-200 p-2 increment">+</button>
                     </div>
                     <div class="w-32 text-center text-red-600 font-bold subtotal">0.00</div>
-                    <div class="w-32 text-center text-red-600">
-                        <a class="hover:underline" href="#">Delete</a>
-                        <a class="hover:underline block" href="#">Find similar products</a>
-                    </div>
                 </div>
                 <div class="flex items-center border-b pb-4 mb-4 product">
                     <input class="mr-2 product-checkbox" type="checkbox"/>
@@ -139,10 +134,6 @@
                         <button class="bg-gray-200 p-2 increment">+</button>
                     </div>
                     <div class="w-32 text-center text-red-600 font-bold subtotal">0.00</div>
-                    <div class="w-32 text-center text-red-600">
-                        <a class="hover:underline" href="#">Delete</a>
-                        <a class="hover:underline block" href="#">Find similar products</a>
-                    </div>
                 </div>
                 <div class="flex items-center border-b pb-4 mb-4 product">
                     <input class="mr-2 product-checkbox" type="checkbox"/>
@@ -162,14 +153,86 @@
                         <button class="bg-gray-200 p-2 increment">+</button>
                     </div>
                     <div class="w-32 text-center text-red-600 font-bold subtotal">0.00</div>
-                    <div class="w-32 text-center text-red-600">
-                        <a class="hover:underline" href="#">Delete</a>
-                        <a class="hover:underline block" href="#">Find similar products</a>
+                </div>
+                <div class="flex items-center border-b pb-4 mb-4 product">
+                    <input class="mr-2 product-checkbox" type="checkbox"/>
+                    <div class="flex items-center">
+                        <img alt="Product image" class="w-16 h-16 mr-4" height="60" src="https://storage.googleapis.com/a1aa/image/JRJ8XfnV5GWnAa3PVXhod0GQU3qAXwVuXETe5SCfhtkmaKKnA.jpg" width="60"/>
+                        <div>
+                            <span class="font-bold">ASUS ROG Strix GeForce RTX 3080 OC Edition...</span>
+                            <div class="text-sm text-gray-500">Waiting for price $8,500.00</div>
+                        </div>
                     </div>
+                    <div class="ml-auto w-32 text-center">
+                        <div class="text-red-600 font-bold price" data-price="8500.00">$8,500.00</div>
+                    </div>
+                    <div class="w-32 text-center">
+                        <button class="bg-gray-200 p-2 decrement">-</button>
+                        <input class="w-12 text-center border border-gray-300 mx-2 quantity" type="number" value="1" min="1"/>
+                        <button class="bg-gray-200 p-2 increment">+</button>
+                    </div>
+                    <div class="w-32 text-center text-red-600 font-bold subtotal">0.00</div>
+                </div>
+                <div class="flex items-center border-b pb-4 mb-4 product">
+                    <input class="mr-2 product-checkbox" type="checkbox"/>
+                    <div class="flex items-center">
+                        <img alt="Product image" class="w-16 h-16 mr-4" height="60" src="https://storage.googleapis.com/a1aa/image/JRJ8XfnV5GWnAa3PVXhod0GQU3qAXwVuXETe5SCfhtkmaKKnA.jpg" width="60"/>
+                        <div>
+                            <span class="font-bold">MSI Gaming GeForce RTX 3070 Ti 8GB GDRR6X...</span>
+                            <div class="text-sm text-gray-500">Waiting for price $7,200.00</div>
+                        </div>
+                    </div>
+                    <div class="ml-auto w-32 text-center">
+                        <div class="text-red-600 font-bold price" data-price="7200.00">$7,200.00</div>
+                    </div>
+                    <div class="w-32 text-center">
+                        <button class="bg-gray-200 p-2 decrement">-</button>
+                        <input class="w-12 text-center border border-gray-300 mx-2 quantity" type="number" value="1" min="1"/>
+                        <button class="bg-gray-200 p-2 increment">+</button>
+                    </div>
+                    <div class="w-32 text-center text-red-600 font-bold subtotal">0.00</div>
+                </div>
+                <div class="flex items-center border-b pb-4 mb-4 product">
+                    <input class="mr-2 product-checkbox" type="checkbox"/>
+                    <div class="flex items-center">
+                        <img alt="Product image" class="w-16 h-16 mr-4" height="60" src="https://storage.googleapis.com/a1aa/image/JRJ8XfnV5GWnAa3PVXhod0GQU3qAXwVuXETe5SCfhtkmaKKnA.jpg" width="60"/>
+                        <div>
+                            <span class="font-bold">EVGA GeForce RTX 3090 FTW3 Ultra Gaming...</span>
+                            <div class="text-sm text-gray-500">Waiting for price $9,000.00</div>
+                        </div>
+                    </div>
+                    <div class="ml-auto w-32 text-center">
+                        <div class="text-red-600 font-bold price" data-price="9000.00">$9,000.00</div>
+                    </div>
+                    <div class="w-32 text-center">
+                        <button class="bg-gray-200 p-2 decrement">-</button>
+                        <input class="w-12 text-center border border-gray-300 mx-2 quantity" type="number" value="1" min="1"/>
+                        <button class="bg-gray-200 p-2 increment">+</button>
+                    </div>
+                    <div class="w-32 text-center text-red-600 font-bold subtotal">0.00</div>
+                </div>
+                <div class="flex items-center border-b pb-4 mb-4 product">
+                    <input class="mr-2 product-checkbox" type="checkbox"/>
+                    <div class="flex items-center">
+                        <img alt="Product image" class="w-16 h-16 mr-4" height="60" src="https://storage.googleapis.com/a1aa/image/JRJ8XfnV5GWnAa3PVXhod0GQU3qAXwVuXETe5SCfhtkmaKKnA.jpg" width="60"/>
+                        <div>
+                            <span class="font-bold">Gigabyte AORUS GeForce RTX 3080 Master 10G...</span>
+                            <div class="text-sm text-gray-500">Waiting for price $8,200.00</div>
+                        </div>
+                    </div>
+                    <div class="ml-auto w-32 text-center">
+                        <div class="text-red-600 font-bold price" data-price="8200.00">$8,200.00</div>
+                    </div>
+                    <div class="w-32 text-center">
+                        <button class="bg-gray-200 p-2 decrement">-</button>
+                        <input class="w-12 text-center border border-gray-300 mx-2 quantity" type="number" value="1" min="1"/>
+                        <button class="bg-gray-200 p-2 increment">+</button>
+                    </div>
+                    <div class="w-32 text-center text-red-600 font-bold subtotal">0.00</div>
                 </div>
             </div>
         </div>
-        <div class="bg-white mt-4 p-4 shadow flex items-center">
+        <div class="bg-white p-4 shadow flex items-center fixed bottom-0 left-0 right-0">
             <a class="ml-4 text-red-600 hover:underline" href="#">Delete</a>
             <a class="ml-4 text-red-600 hover:underline" href="#">Remove inactive products</a>
             <div class="ml-auto">
