@@ -44,9 +44,9 @@ def logout():
         return redirect(url_for('main_page'))
     
 
-@customer.route('/customer_info')
-def customer_info():
+@customer.route('/accout_profile')
+def accout_profile():
     if 'cust_name' in session:
-        return render_template('customer_info.html', cust_name=session['cust_name'])
+        return render_template('accout_profile.html', cust_name=session['cust_name'])
     else:
         return redirect(url_for('auth.login'))
