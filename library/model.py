@@ -11,12 +11,17 @@ class Customer(db.Model):
     cust_name = db.Column(db.String(100), nullable=False)
     contact_number = db.Column(db.String(15))
     email = db.Column(db.String(100))
+    address = db.Column(db.String(200), nullable=True)
+    gender = db.Column(db.String(10), nullable=True)
+    avatar_path = db.Column(db.String(255), nullable=True)  
 
-    def __init__(self, cust_name, contact_number, email):
+    def __init__(self, cust_name, contact_number, email, address=None, gender=None, avatar_path=None):
         self.cust_name = cust_name
         self.contact_number = contact_number
         self.email = email
-        
+        self.address = address
+        self.gender = gender
+        self.avatar_path = avatar_path  
 
 
 class Restaurant(db.Model):

@@ -29,7 +29,7 @@ def login(form_data):
     customer = Customer.query.filter_by(email=email).first()
 
     if customer and customer.contact_number == contact_number:  
-        session['cust_name'] = customer.cust_name
+        session['cust_id'] = customer.id
         return jsonify({"message": "Login successful!"}), 200
     else:
         return jsonify({"message": "Invalid email or phone number"}), 401
