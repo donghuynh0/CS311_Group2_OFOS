@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, session, flash
-from .service import signup as signup_service, login as login_service, logout as logout_service
+from .service import signup as signup_service,login as login_service, logout as logout_service, update_customer_profile, getCustomer,update_avatar_path
 from library.model import Customer
 customer = Blueprint("customer", __name__)
 
@@ -44,19 +44,23 @@ def logout():
         return redirect('/')
     
 
-@customer.route('/accout_profile')
-def accout_profile():
-    cust_id = session.get('cust_id')  
-    customer = Customer.query.get(cust_id)  
-
+@customer.route('/account_profile', methods=['GET', 'POST'])
+def account_profile():
+    if request.method == 'POST':
+        update_avatar_path(request.files)
+        return redirect('/account_profile')
+    customer = getCustomer()
     if not customer:
-        return redirect('/login')
-
-    print(customer)
-    
+        return redirect('/login')    
     return render_template('account_profile.html', customer=customer)
     
     
-@customer.route('/update_profile')
+    
+
+    
+@customer.route('/update_profile', methods=['GET', 'POST'])
 def update_profile():
-    return render_template('update_profile.html')
+    if request.method == 'POST':
+        success = update_customer_profile(request.form, request.files)
+        return redirect('/account_profile')
+    return render_template('update_profile.html', customer=getCustomer())
