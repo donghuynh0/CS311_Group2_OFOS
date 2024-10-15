@@ -62,9 +62,12 @@ def update_avatar_path(files_data):
         if file_extension not in allowed_extensions:
             raise ValueError("Unsupported file type.")
         
-        image_filename = f"{int(time.time())}_{image_file.filename}"
+        image_filename = f"{image_file.filename}"
         image_path = os.path.join(uploads_dir, image_filename)  
-        image_file.save(image_path)
+        print(image_path)
+        file_exists = os.path.exists(f"library/static/uploads/{image_filename}")
+        if not file_exists:
+            image_file.save(f"library/static/uploads/{image_filename}")
     if image_filename:  
         customer.avatar_path = f"uploads/{image_filename}"
     db.session.commit()
