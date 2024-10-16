@@ -9,7 +9,7 @@
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            background-image: url('/static/images/background\ FHD.jpeg');
+            background-image: url('/static/images/background.webp');
             background-size: cover;
             background-position: center;
         }
@@ -26,10 +26,6 @@
                             <div className="flex items-center">
                                 <img src="/static/images/Logo/Logo 40x40.png" alt="BlackWolf Logo" className="h-8"/>
                             </div>
-                            <nav className="flex items-center space-x-6">
-                                <a href="#" className="text-red-500 font-semibold">FOOD</a>
-                                <a href="#" className="text-gray-700">SUPERMARKET</a>
-                            </nav>
                             <div className="flex items-center space-x-4">
                                 <i className="fas fa-search text-gray-700"></i>
                                 {cust_name ? (
@@ -43,23 +39,9 @@
                     </header>
                     <main className="container mx-auto mt-10 px-6">
                         <div className="text-center">
-                            <h1 className="text-3xl font-bold">Đặt Đồ ăn, giao hàng ngay tức khắc'...</h1>
-                            <p className="mt-2">Có 431 Địa Điểm Ở Nam Định Từ 00:00 - 23:59</p>
                             <div className="mt-6 flex justify-center">
-                                <input type="text" placeholder="Tìm địa điểm, món ăn, địa chỉ..." className="w-1/2 px-4 py-2 rounded-l-md"/>
+                                <input type="text" placeholder="Find..." className="w-1/2 px-4 py-2 rounded-l-md text-black"/>
                                 <button className="bg-blue-500 px-4 py-2 rounded-r-md"><i className="fas fa-search text-white"></i></button>
-                            </div>
-                            <div className="mt-6 flex flex-wrap justify-center space-x-2">
-                                {['All', 'Đồ ăn', 'Đồ uống', 'Đồ chay', 'Bánh kem', 'Tráng miệng', 'Pizza/Burger', 'Món lẩu', 'Sushi', 'Mì phở', 'Cơm hộp'].map(category => (
-                                    <button key={category} className="bg-gray-800 text-white px-4 py-2 rounded-md mt-2">{category}</button>
-                                ))}
-                            </div>
-                            <div className="mt-6">
-                                <p>Sử dụng App BlackWolf_Food để có nhiều giảm giá và trải nghiệm tốt hơn</p>
-                                <div className="flex justify-center space-x-4 mt-2">
-                                    <img src="/static/images/DL_logo/app_store.jpg" alt="App Store" className="h-12"/>
-                                    <img src="/static/images/DL_logo/gg play.png" alt="Google Play" className="h-12"/>
-                                </div>
                             </div>
                         </div>
                         <div className="mt-10">

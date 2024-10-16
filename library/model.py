@@ -26,17 +26,18 @@ class Customer(db.Model):
 
 class Restaurant(db.Model):
     __tablename__ = 'restaurants'
-    
+
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     rest_name = db.Column(db.String(100), nullable=False)
     contact_number = db.Column(db.String(15))
     address = db.Column(db.String(255))
+    logo_image_path = db.Column(db.String(255)) 
 
-    def __init__(self, rest_name, contact_number, address):
+    def __init__(self, rest_name, contact_number, address, logo_image_path=None):
         self.rest_name = rest_name
         self.contact_number = contact_number
         self.address = address
-
+        self.logo_image_path = logo_image_path
 
 class DeliveryPerson(db.Model):
     __tablename__ = 'deliverypersons'
