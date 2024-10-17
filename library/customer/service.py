@@ -16,6 +16,7 @@ def signup(form_data):
             new_customer = Customer(cust_name=cust_name, contact_number=contact_number, email=email)
             db.session.add(new_customer)
             db.session.commit()
+        
             return jsonify({"message": "Sign up successfully!"}), 200
         except Exception as e:
             db.session.rollback()
