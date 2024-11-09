@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, session, flash
-from .service import signup as signup_service,login as login_service, logout as logout_service, update_customer_profile, getCustomer,update_avatar_path
+from .cust_service import signup as signup_service,login as login_service, logout as logout_service, update_customer_profile, getCustomer,update_avatar_path
 from library.model import Customer
+from library.shopping.cart_service import CartService
 customer = Blueprint("customer", __name__)
 
 @customer.route('/signup', methods=['GET', 'POST'])
@@ -49,10 +50,12 @@ def account_profile():
     if request.method == 'POST':
         update_avatar_path(request.files)
         return redirect('/account_profile')
+    cust_id = session.get('cust_id')   
+    total_quantity = CartService.get_total_quantity(cust_id)
     customer = getCustomer()
     if not customer:
         return redirect('/login')    
-    return render_template('account_profile.html', customer=customer)
+    return render_template('account_profile.html', customer=customer, total_quantity=total_quantity)
     
     
     

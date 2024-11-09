@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -20,22 +21,31 @@
 <body>
     <div id="root"></div>
     <script type="text/babel">
+        function redirectToRestaurantPage(restaurantId) {
+            window.location.href = `/restaurant/${restaurantId}`;
+        }
+    
         const App = ({ cust_name }) => {
             const [restaurants, setRestaurants] = React.useState([]);
-
+    
             React.useEffect(() => {
                 fetch('/api/restaurants')
                     .then(response => response.json())
-                    .then(data => setRestaurants(data))
+                    .then(data => {
+                        console.log("Fetched restaurants:", data);  // Debugging line
+                        setRestaurants(data);
+                    })
                     .catch(error => console.error('Error fetching data:', error));
             }, []);
-
+    
             return (
                 <div className="text-white">
                     <header className="sticky top-0 bg-white z-50 shadow-md">
                         <div className="container mx-auto flex justify-between items-center py-2 px-4">
                             <div className="flex items-center">
-                                <img src="/static/images/Logo/Logo 100x100.png" alt="BlackWolf Logo" className="h-12"/>
+                                <a href="/">
+                                    <img src="/static/images/Logo/Logo 100x100.png" alt="BlackWolf Logo" className="h-12"/>
+                                </a>
                             </div>
                             <div className="flex items-center space-x-4">
                                 {cust_name ? (
@@ -48,19 +58,17 @@
                         </div>
                     </header>
                     <main className="container mx-auto mt-10 px-6">
-                        <div className="text-center">
-                        </div>
                         <div className="mt-10">
                             <div className="grid grid-cols-3 gap-4 mt-4">
                                 {restaurants.map((item, index) => (
                                     <div key={index} className="bg-white rounded-md p-4">
-                                        <img src={item.img} alt={item.title} className="w-full h-32 object-cover rounded-md"/>
+                                        <img onClick={() => redirectToRestaurantPage(item.id)} src={item.img} alt={item.title} className="w-full h-32 object-cover rounded-md"/>
                                         <div className="mt-2">
                                             <div className="flex justify-between items-center">
                                                 <h3 className="text-lg font-semibold text-gray-800">{item.title}</h3>
                                             </div>
                                             <p className="text-gray-600">{item.description}</p>
-                                            <button className="bg-blue-700 text-white px-2 py-1 rounded-md mt-2">Select</button>
+                                            <button onClick={() => redirectToRestaurantPage(item.id)} className="bg-blue-700 text-white px-2 py-1 rounded-md mt-2">Select</button>
                                         </div>
                                     </div>
                                 ))}
@@ -70,9 +78,10 @@
                 </div>
             );
         };
-
+    
         const cust_name = "{{ customer.cust_name }}";
         ReactDOM.render(<App cust_name={cust_name !== 'None' ? cust_name : null} />, document.getElementById('root'));
     </script>
+    
 </body>
 </html>

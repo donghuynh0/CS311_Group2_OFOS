@@ -1,6 +1,4 @@
 from .extension import db
-
-from .extension import db
 from datetime import datetime
 
 
@@ -106,3 +104,39 @@ class Payment(db.Model):
         self.total_amount = total_amount
         self.amount_payed = amount_payed
         self.amount_returned = amount_returned
+class RestaurantItem(db.Model):
+    __tablename__ = 'restaurant_items'
+    
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.id'), nullable=False)
+    item_name = db.Column(db.String(100), nullable=False)
+    item_price = db.Column(db.Numeric(10, 2), nullable=False)
+    logo = db.Column(db.String(255), nullable=True)  
+
+    restaurant = db.relationship('Restaurant', backref=db.backref('items', lazy=True))
+
+    def __init__(self, restaurant_id, item_name, item_price, logo=None):
+        self.restaurant_id = restaurant_id
+        self.item_name = item_name
+        self.item_price = item_price
+        self.logo = logo
+        
+class Cart(db.Model):
+    __tablename__ = 'cart'
+    
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    cust_id = db.Column(db.Integer, db.ForeignKey('customers.id'), nullable=False)
+    item_id = db.Column(db.Integer, db.ForeignKey('restaurant_items.id'), nullable=False)
+    quantity = db.Column(db.Integer, nullable=False, default=1)
+    added_date = db.Column(db.DateTime, default=datetime.utcnow)
+
+    # Relationships
+    item = db.relationship('RestaurantItem', backref=db.backref('carts', lazy=True))
+    customer = db.relationship('Customer', backref=db.backref('cart_items', lazy=True))
+
+    def __init__(self, cust_id, item_id, quantity=1):
+        self.cust_id = cust_id  
+        self.item_id = item_id
+        self.quantity = quantity
+
+

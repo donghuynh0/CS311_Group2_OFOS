@@ -1,0 +1,18 @@
+from flask import Blueprint, render_template, session
+from .rest_service import get_all_restaurants, fetch_restaurant_items 
+from library.shopping.cart_service import CartService
+restaurants = Blueprint('restaurants', __name__)
+
+@restaurants.route('/api/restaurants', methods=['GET'])
+def get_restaurants():
+    return get_all_restaurants()
+
+@restaurants.route('/api/restaurant_items/<int:restaurant_id>', methods=['GET'])
+def get_restaurant_items_route(restaurant_id): 
+    return fetch_restaurant_items(restaurant_id)
+
+@restaurants.route('/restaurant/<int:restaurant_id>')
+def restaurant_page(restaurant_id):
+    cust_id = session.get('cust_id')   
+    total_quantity = CartService.get_total_quantity(cust_id)
+    return render_template('restaurant.html', restaurant_id=restaurant_id, total_quantity=total_quantity)
