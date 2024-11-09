@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, session, flash
 from .cust_service import signup as signup_service,login as login_service, logout as logout_service, update_customer_profile, getCustomer,update_avatar_path
-from library.model import Customer
-from library.shopping.cart_service import CartService
+from library.model import Customer, Cart
+from library.shopping.shop_service import CartService
+from library.extension import db
 customer = Blueprint("customer", __name__)
 
 @customer.route('/signup', methods=['GET', 'POST'])
@@ -63,7 +64,10 @@ def account_profile():
     
 @customer.route('/update_profile', methods=['GET', 'POST'])
 def update_profile():
+    total_quantity = 0 
+    customer = Customer.query.filter_by(id=session['cust_id']).first()
+    total_quantity = Cart.query.filter_by(cust_id=session['cust_id']).with_entities(db.func.sum(Cart.quantity)).scalar() or 0
     if request.method == 'POST':
         success = update_customer_profile(request.form, request.files)
         return redirect('/account_profile')
-    return render_template('update_profile.html', customer=getCustomer())
+    return render_template('update_profile.html', customer=getCustomer(), total_quantity=total_quantity)

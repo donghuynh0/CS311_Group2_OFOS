@@ -9,34 +9,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"/>
     <style>
         body { font-family: 'Roboto', sans-serif; }
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 50;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.4);
-        }
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            width: 80%;
-            max-width: 500px;
-            border-radius: 8px;
-            position: relative;
-        }
+        .modal { display: none; position: fixed; z-index: 50; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.4); }
+        .modal-content { background-color: #fefefe; margin: 15% auto; padding: 20px; width: 80%; max-width: 500px; border-radius: 8px; position: relative; }
         .close { font-size: 28px; font-weight: bold; }
         .close:hover { color: black; cursor: pointer; }
-        .item-logo {
-            width: 100%;
-            height: auto;
-            max-width: 200px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
+        .item-logo { width: 100%; height: auto; max-width: 200px; object-fit: cover; border-radius: 8px; }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -50,12 +27,18 @@
                 <span class="text-white text-2xl font-bold">BlackWolf</span>
             </a>
         </div>
-        <div class="flex items-center">
-            <a href="/cart">
-                <i class="fas fa-shopping-cart text-white text-2xl"></i>
+        <div class="flex items-center space-x-4">
+            <a href="/account_profile">
+                <img src="{{ url_for('static', filename=customer.avatar_path) }}" alt="User avatar" class="rounded-full h-8 w-8"/>
             </a>
-            <a href="/cart">
-                <span class="bg-red-600 text-white rounded-full px-2 ml-1" id="cartCount">{{ total_quantity }}</span>
+
+            <a href="/account_profile" class="bg-blue-500 text-white px-4 py-2 rounded-md">{{ customer.cust_name }}</a>
+
+            <a href="/cart" class="relative">
+                <i class="fas fa-shopping-cart text-white text-2xl"></i>
+                <span id="cartCount" class="bg-red-600 text-white rounded-full px-2 ml-1 absolute top-0 right-0 transform -translate-x-1/2 -translate-y-1/2 text-xs font-bold">
+                    {{ total_quantity }}
+                </span>
             </a>
         </div>
     </header>
@@ -90,11 +73,12 @@
 
     <script>
         let currentQuantity = 1;
+        const totalQuantity = {{ total_quantity }}; // Initialize total_quantity
 
-        // Pass restaurant_id from Flask template into JavaScript
-        const restaurantId = "{{ restaurant_id }}"; // Flask variable
-
-        console.log("Restaurant ID:", restaurantId); // Should show the correct ID in the console
+        // Set initial cart count display
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('cartCount').textContent = totalQuantity;
+        });
 
         function openModal(title, price, image) {
             currentQuantity = 1;
@@ -122,15 +106,15 @@
         }
 
         async function addToCart() {
-            let cartCount = parseInt(document.getElementById('cartCount').innerText);
+            let cartCountElement = document.getElementById('cartCount');
+            let cartCount = parseInt(cartCountElement.textContent) || 0;
             cartCount += currentQuantity;
-            document.getElementById('cartCount').innerText = cartCount;
+            cartCountElement.textContent = cartCount;  // Update the cart count on the page
 
             const itemName = document.getElementById('modalTitle').innerText;
             const itemPrice = document.getElementById('modalPrice').innerText;
             const itemLogo = document.getElementById('modalImage').src;
 
-            // Fetch item ID (from backend or HTML attribute) and quantity
             const itemId = parseInt(itemLogo.split('/').pop()); // or any logic to get item_id
             const quantity = currentQuantity;
 
@@ -147,7 +131,6 @@
             closeModal();
         }
 
-
         async function fetchRestaurantItems(restaurantId) {
             try {
                 const response = await fetch(`/api/restaurant_items/${restaurantId}`);
@@ -159,7 +142,6 @@
         }
 
         function displayItems(items) {
-            console.log(items);
             const itemsContainer = document.getElementById('itemsContainer');
             itemsContainer.innerHTML = '';
 
@@ -170,7 +152,7 @@
                 itemElement.innerHTML = `
                     <img src="${item.logo}" alt="Product image" class="item-logo mb-2">
                     <p class="text-sm">${item.item_name}</p>
-                    <div class="text-red-500 font-bold">g${item.item_price}</div>
+                    <div class="text-red-500 font-bold">${item.item_price}</div>
                     <button class="absolute bottom-2 right-2 bg-[#0066AD] text-white rounded-full w-8 h-8 flex items-center justify-center" onclick="openModal('${item.item_name}', '${item.item_price}', '${item.logo}')">+</button>
                 `;
 
@@ -179,7 +161,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Fetch restaurant items after the page loads
+            const restaurantId = "{{ restaurant_id }}"; // Flask variable
             fetchRestaurantItems(restaurantId);
         });
     </script>

@@ -3,7 +3,7 @@ from .extension import db, ma
 import os
 from .customer.cust_controller import customer
 from .restaurants.rest_controller import restaurants
-from .shopping.cart_controller import cart
+from .shopping.shop_controller import cart
 
 def create_db(app):
     if not os.path.exists('library/library.db'):

@@ -21,11 +21,26 @@
 <body class="bg-gray-100">
     <header class="bg-[#0066AD] p-4 flex items-center justify-between">
         <div class="flex items-center">
-            <img alt="BlackWolf logo" class="mr-2" height="40" src="{{ url_for('static', filename='images/Logo/Logo 40x40.png') }}" width="40"/>
-            <span class="text-white text-2xl font-bold">BlackWolf</span>
+            <a href="/">
+                <img alt="BlackWolf logo" class="mr-2" height="40" src="{{ url_for('static', filename='images/Logo/Logo 40x40.png') }}" width="40"/>
+            </a>
+            <a href="/">
+                <span class="text-white text-2xl font-bold">BlackWolf</span>
+            </a>
         </div>
-        <div class="flex items-center">
-            <i class="fas fa-shopping-cart text-white text-2xl"></i>
+        <div class="flex items-center space-x-4">
+            <a href="/account_profile">
+                <img src="{{ url_for('static', filename=customer.avatar_path) }}" alt="User avatar" class="rounded-full h-8 w-8"/>
+            </a>
+
+            <a href="/account_profile" class="bg-blue-500 text-white px-4 py-2 rounded-md">{{ customer.cust_name }}</a>
+
+            <a href="/cart" class="relative">
+                <i class="fas fa-shopping-cart text-white text-2xl "></i>
+                <span class="bg-red-600 text-white rounded-full px-2 ml-1 absolute top-0 right-0 transform -translate-x-1/2 -translate-y-1/2 text-xs font-bold">
+                    {{ total_quantity }}
+                </span>
+            </a>
         </div>
     </header>
     <div class="flex">

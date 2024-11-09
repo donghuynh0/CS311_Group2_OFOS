@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request, session, render_template
-from .cart_service import CartService
+from .shop_service import CartService
 from library.model import Cart, RestaurantItem, Customer, Order, OrderItem
 from library.customer.cust_service import getCustomer
 from library.extension import db
@@ -39,7 +39,6 @@ def update_quantity():
     quantity = request.json.get('quantity')
     print("Received data:", {"cust_id": cust_id, "item_id": item_id, "quantity": quantity})  # Debug line
 
-    # Proceed with updating the cart item
     cart_item = Cart.query.filter_by(cust_id=cust_id, item_id=item_id).first()
     if cart_item:
         cart_item.quantity = quantity
@@ -47,11 +46,9 @@ def update_quantity():
 
         subtotal = cart_item.quantity * cart_item.item.item_price
         total = sum(item.quantity * item.item.item_price for item in Cart.query.filter_by(cust_id=cust_id).all())
-        print("Updated subtotal:", subtotal, "Updated total:", total)  # Debug line
 
         return jsonify({'subtotal': subtotal, 'total': total}), 200
     else:
-        print("Item not found in cart")  # Debug line
         return jsonify({'error': 'Item not found in cart'}), 404
    
     
