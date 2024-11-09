@@ -91,7 +91,7 @@
     
         const cust_name = "{{ customer.cust_name if customer else '' }}";
         const avatar_path = "{{ url_for('static', filename=customer.avatar_path) if customer else '' }}";
-        const total_quantity = {{ total_quantity }};
+        const total_quantity = "{{ total_quantity }}";
         
         ReactDOM.render(
             <App 
