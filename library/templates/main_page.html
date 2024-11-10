@@ -48,7 +48,7 @@
                     <header class="bg-[#0066AD] p-1 flex items-center justify-between fixed top-0 left-0 w-full z-50">
                         <div className="container mx-auto flex justify-between items-center py-2 px-4">
                             <div className="flex items-center">
-                                <a href="/">
+                               <a href="/">
                                     <img src="/static/images/Logo/Logo 100x100.png" alt="BlackWolf Logo" className="h-12"/>
                                 </a>
                                 <a href="/" class="text-white text-2xl font-bold">
@@ -103,7 +103,7 @@
         };
     
         const cust_name = "{{ customer.cust_name if customer else '' }}";
-        const avatar_path = "{{ url_for('static', filename=customer.avatar_path) if customer else '' }}";
+        const avatar_path = "{{ url_for('static', filename=customer.avatar_path) if customer and customer.avatar_path else url_for('static', filename='images/user.png') }}";
         const total_quantity = "{{ total_quantity }}";
         
         ReactDOM.render(

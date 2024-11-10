@@ -109,7 +109,11 @@
         <div class="flex items-center space-x-4">
             <div class="flex items-center">
                 <a href="/account_profile">
-                    <img src="{{ url_for('static', filename=customer.avatar_path) }}" alt="User avatar" class="rounded-full" height="30" width="30">
+                    <a href="/account_profile">
+                        <img src="{{ url_for('static', filename=customer.avatar_path) if customer and customer.avatar_path else url_for('static', filename='images/user.png') }}" 
+                        alt="User avatar" 
+                        class="rounded-full h-8 w-8"/>
+                    </a>
                 </a>
                 <a href="/account_profile">
                     <span class="ml-2">{{ customer.cust_name }}</span>

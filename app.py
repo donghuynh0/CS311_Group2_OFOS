@@ -3,7 +3,7 @@ from flask import session, render_template
 from library.model import Customer, Cart
 from library.extension import db
 from library.restaurants.rest_service import get_all_restaurants
-
+from library.customer.cust_service import check_session_timeout
 app = create_app()
 
 @app.route('/')
@@ -16,6 +16,16 @@ def main_page():
         total_quantity = Cart.query.filter_by(cust_id=session['cust_id']).with_entities(db.func.sum(Cart.quantity)).scalar() or 0
 
     return render_template('main_page.html', customer=customer, total_quantity=total_quantity)
+
+
+@app.before_request
+def before_request():
+    # Automatically check session timeout before each request
+    if 'cust_id' in session:
+        result = check_session_timeout()
+        if result is not None:
+            return result
+
 
 
 @app.template_filter('currency')

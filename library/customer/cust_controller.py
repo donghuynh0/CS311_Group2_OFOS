@@ -8,17 +8,17 @@ customer = Blueprint("customer", __name__)
 @customer.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
-        response = signup_service(request.form)  
-
-        if response[1] == 200:  
-            flash(response[0].json['message'], "success_signup")
+        response, status_code = signup_service(request.form) 
+        
+        if status_code == 200:  
+            flash(response.get_json().get('message'), "success_signup")
             return redirect('/login')
         
-        elif response[1] == 400:
-            flash(response[0].json['message'], "error_signup")
+        elif status_code == 400:
+            flash(response.get_json().get('message'), "error_signup")
             return redirect('/signup')
 
-        flash(response[0].json['message'], "error")
+        flash("An unknown error occurred", "error")
         return redirect('/signup')
 
     return render_template('signup.html')

@@ -2,24 +2,30 @@ from .extension import db
 from datetime import datetime
 
 
+
 class Customer(db.Model):
     __tablename__ = 'customers'
     
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     cust_name = db.Column(db.String(100), nullable=False)
     contact_number = db.Column(db.String(15))
-    email = db.Column(db.String(100))
+    email = db.Column(db.String(100), unique=True, nullable=False)
     address = db.Column(db.String(200), nullable=True)
     gender = db.Column(db.String(10), nullable=True)
-    avatar_path = db.Column(db.String(255), nullable=True)  
+    avatar_path = db.Column(db.String(255), nullable=True)
+    password = db.Column(db.String(255), nullable=False)  # Store plain-text password
 
-    def __init__(self, cust_name, contact_number, email, address=None, gender=None, avatar_path=None):
+    def __init__(self, cust_name, contact_number, email, password, address=None, gender=None, avatar_path=None):
         self.cust_name = cust_name
         self.contact_number = contact_number
         self.email = email
         self.address = address
         self.gender = gender
-        self.avatar_path = avatar_path  
+        self.avatar_path = avatar_path
+        self.password = password 
+
+
+
 
 
 class Restaurant(db.Model):
