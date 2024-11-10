@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, session, flash
+from flask import Blueprint, render_template, request, redirect, session, flash, jsonify
 from .cust_service import signup as signup_service,login as login_service, logout as logout_service, update_customer_profile, getCustomer,update_avatar_path
 from library.model import Customer, Cart
 from library.shopping.shop_service import CartService
@@ -48,10 +48,13 @@ def logout():
 
 @customer.route('/account_profile', methods=['GET', 'POST'])
 def account_profile():
+    cust_id = session.get('cust_id')
+    if not cust_id:
+        return redirect('/')
+    
     if request.method == 'POST':
         update_avatar_path(request.files)
         return redirect('/account_profile')
-    cust_id = session.get('cust_id')   
     total_quantity = CartService.get_total_quantity(cust_id)
     customer = getCustomer()
     if not customer:
@@ -64,6 +67,9 @@ def account_profile():
     
 @customer.route('/update_profile', methods=['GET', 'POST'])
 def update_profile():
+    cust_id = session.get('cust_id')
+    if not cust_id:
+        return redirect('/')
     total_quantity = 0 
     customer = Customer.query.filter_by(id=session['cust_id']).first()
     total_quantity = Cart.query.filter_by(cust_id=session['cust_id']).with_entities(db.func.sum(Cart.quantity)).scalar() or 0

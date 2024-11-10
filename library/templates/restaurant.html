@@ -74,6 +74,11 @@
     </div>
 
     <script>
+
+        const urlPath = window.location.pathname;
+
+        const restaurantId = urlPath.split("/").pop();
+            
         let currentQuantity = 1;
         const totalQuantity = "{{ total_quantity }}"; // Initialize total_quantity
 

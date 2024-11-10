@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>BlackWolf Order Details</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+</head>
+<body class="bg-gray-100">
+    <!-- Header -->
+    <header class="bg-[#0066AD] p-4 flex justify-between items-center">
+        <div class="flex items-center">
+            <a href="/">
+                <img src="/static/images/Logo/Logo 40x40.png" alt="BlackWolf logo" width="40" height="40" class="mr-2">
+            </a>
+            <a href="/">
+                <span class="text-white text-2xl font-bold">BlackWolf</span>
+            </a>
+        </div>
+        <div class="flex items-center space-x-4">
+            <a href="/account_profile">
+                <img src="{{ url_for('static', filename=customer.avatar_path) if customer and customer.avatar_path else url_for('static', filename='images/user.png') }}" 
+                     alt="User avatar" class="rounded-full h-8 w-8"/>
+            </a>
+            <a href="/account_profile" class="bg-blue-500 text-white px-4 py-2 rounded-md">{{ customer.cust_name }}</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container mx-auto mt-4 flex">
+        <!-- Sidebar -->
+        <div class="w-1/5 h-40 bg-white p-4 shadow">
+            <div class="flex items-center space-x-2 mb-4">
+                <img alt="User Avatar" class="h-10 rounded-full" src="{{ url_for('static', filename=customer.avatar_path) }}" width="40" height="40"/>
+                <div>
+                    <span class="block text-gray-700 font-bold">{{ customer.cust_name }}</span>
+                    <a class="text-blue-500" href="#">Edit Profile</a>
+                </div>
+            </div>
+            <div class="space-y-4">
+                <div class="flex items-center space-x-2">
+                    <a href="/account_profile">
+                        <i class="fas fa-user text-gray-700"></i>
+                        <span class="text-gray-700">My account</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Section for Each Order -->
+        <div class="w-4/5 bg-white p-4 shadow ml-4">
+            {% for order in orders %}
+                <div class="bg-white p-4 border rounded shadow mt-4">
+                    <!-- Order Information -->
+                    <h2 class="text-xl font-bold mb-2">Order ID: {{ order.order_id }}</h2>
+                    <div class="text-gray-700">Customer: {{ customer.cust_name }}</div>
+                    <div class="text-green-500 flex items-center space-x-2 mt-2">
+                        <i class="fas fa-truck"></i>
+                        <span>Order is on its way.</span>
+                    </div>
+
+                    <!-- Order Items -->
+                    <h3 class="text-lg font-bold mt-4">Items:</h3>
+                    <div class="space-y-6">
+                        {% for item in order.order_items %}
+                            <div class="bg-white rounded-md shadow p-4 flex items-center">
+                                <img alt="Product Image" class="h-20 w-20 object-cover rounded-md" src="{{ item.image_url }}" />
+                                
+                                <div class="ml-4 flex-1">
+                                    <h3 class="text-gray-800 font-semibold">{{ item.item_name }}</h3>
+                                    <p class="text-gray-500 mt-1">Quantity: <span class="font-semibold">{{ item.quantity }}</span></p>
+                                </div>
+                                
+                                <div class="text-right">
+                                    <p class="text-red-500 font-bold">₫{{ "{:,.0f}".format(item.item_price) }}</p>
+                                </div>
+                            </div>
+                            <!-- Total Price -->
+                            <div class="mt-4 text-right">
+                                <div class="text-gray-700">Total:
+                                    <span class="text-red-500 font-bold">₫{{ "{:,.0f}".format(order.total_price) }}</span>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    
+                </div>
+
+                <!-- Delivery Person Section -->
+                <div class="bg-white p-4 border rounded shadow mt-4">
+                    <div class="flex items-center space-x-4">
+                        <img alt="Delivery Person Image" class="h-30 rounded-full" src="{{ order.delivery_person.avatar_path }}" width="100" height="100"/>
+                        <div>
+                            <h2 class="text-xl font-bold mb-2">Delivery Person Information</h2>
+                            <div>
+                                <span class="text-gray-700-l font-bold">Name: </span>
+                                <span class="text-black-700">{{ order.delivery_person.deli_name }}</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-700-l font-bold">Phone Number: </span>
+                                <span class="text-black-700">{{ order.delivery_person.contact_number }}</span>
+                            </div>
+                                
+                            <div >
+                                <span class="text-gray-700-l font-bold">Email: </span>
+                                <span class="text-black-700">{{ order.delivery_person.email }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

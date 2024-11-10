@@ -1,100 +1,140 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="utf-8">
     <title>Shopping Cart</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const updateTotal = () => {
-            let total = 0;
-            let totalItems = 0;
+        document.addEventListener('DOMContentLoaded', function () {
+            const updateTotal = () => {
+                let total = 0;
+                let totalItems = 0;
 
-            document.querySelectorAll('.product').forEach(product => {
-                const checkbox = product.querySelector('.product-checkbox');
-                const price = parseFloat(product.querySelector('.price').dataset.price);
-                const quantity = parseInt(product.querySelector('.quantity').value);
-                const subtotal = price * quantity;
+                document.querySelectorAll('.product').forEach(product => {
+                    const checkbox = product.querySelector('.product-checkbox');
+                    const price = parseFloat(product.querySelector('.price').dataset.price);
+                    const quantity = parseInt(product.querySelector('.quantity').value);
+                    const subtotal = price * quantity;
 
-                product.querySelector('.subtotal').innerText = subtotal.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-                
-                if (checkbox.checked) {
-                    total += subtotal;
-                    totalItems += quantity;
-                }
+                    product.querySelector('.subtotal').innerText = subtotal.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+                    
+                    if (checkbox.checked) {
+                        total += subtotal;
+                        totalItems += quantity;
+                    }
+                });
+
+                document.querySelector('#total').innerText = total.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+                document.querySelector('#total-items').innerText = totalItems;
+            };
+
+            const updateQuantity = (product, quantity) => {
+                const itemId = product.dataset.itemId;
+
+                fetch('/api/cart/update_quantity', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        item_id: itemId,
+                        quantity: quantity
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.subtotal !== undefined && data.total !== undefined) {
+                        product.querySelector('.subtotal').innerText = data.subtotal.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+                        document.querySelector('#total').innerText = data.total.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+                        updateTotal();
+                    }
+                })
+                .catch(error => console.error('Error updating quantity:', error));
+            };
+
+            document.querySelectorAll('.increment').forEach(button => {
+                button.addEventListener('click', function () {
+                    const product = this.closest('.product');
+                    const quantityInput = product.querySelector('.quantity');
+                    quantityInput.value = parseInt(quantityInput.value) + 1;
+                    updateQuantity(product, parseInt(quantityInput.value));
+                });
             });
 
-            document.querySelector('#total').innerText = total.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-            document.querySelector('#total-items').innerText = totalItems;
-        };
+            document.querySelectorAll('.decrement').forEach(button => {
+                button.addEventListener('click', function () {
+                    const product = this.closest('.product');
+                    const quantityInput = product.querySelector('.quantity');
+                    if (parseInt(quantityInput.value) > 1) {
+                        quantityInput.value = parseInt(quantityInput.value) - 1;
+                        updateQuantity(product, parseInt(quantityInput.value));
+                    }
+                });
+            });
 
-        const updateQuantity = (product, quantity) => {
-            const itemId = product.dataset.itemId;
+            document.querySelectorAll('.quantity').forEach(input => {
+                input.addEventListener('change', function () {
+                    const product = this.closest('.product');
+                    if (parseInt(this.value) < 1) {
+                        this.value = 1;
+                    }
+                    updateQuantity(product, parseInt(this.value));
+                });
+            });
 
-            fetch('/api/cart/update_quantity', {
+            document.querySelectorAll('.product-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', updateTotal);
+            });
+
+            document.querySelector('#select-all').addEventListener('change', function () {
+                const isChecked = this.checked;
+                document.querySelectorAll('.product-checkbox').forEach(checkbox => {
+                    checkbox.checked = isChecked;
+                });
+                updateTotal();
+            });
+
+            updateTotal();
+        });
+
+        function getSelectedItems() {
+            const selectedItems = [];
+            document.querySelectorAll('.product-checkbox:checked').forEach(checkbox => {
+                const product = checkbox.closest('.product');
+                const itemId = product.dataset.itemId;
+                selectedItems.push(itemId);
+            });
+            return selectedItems;
+        }
+
+        function redirectToPlaceOrder() {
+            const selectedItems = getSelectedItems();
+
+            if (selectedItems.length === 0) {
+                alert("Please select at least one item to proceed.");
+                return;
+            }
+
+            // Store selected item IDs in session via API and redirect to place order page
+            fetch('/api/cart/store_selected_items', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    item_id: itemId,
-                    quantity: quantity
-                })
+                body: JSON.stringify({ items: selectedItems })
             })
             .then(response => response.json())
             .then(data => {
-                if (data.subtotal !== undefined && data.total !== undefined) {
-                    // Update subtotal and overall total on the page
-                    product.querySelector('.subtotal').innerText = data.subtotal.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-                    document.querySelector('#total').innerText = data.total.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-                    updateTotal();  // Refresh totals on the page
+                if (data.success) {
+                    window.location.href = '/place_order';
+                } else {
+                    alert("Failed to proceed. Please try again.");
                 }
             })
-            .catch(error => console.error('Error updating quantity:', error));
-        };
-
-        document.querySelectorAll('.increment').forEach(button => {
-            button.addEventListener('click', function () {
-                const product = this.closest('.product');
-                const quantityInput = product.querySelector('.quantity');
-                quantityInput.value = parseInt(quantityInput.value) + 1;
-                updateQuantity(product, parseInt(quantityInput.value));  // Call updateQuantity with the new value
-            });
-        });
-
-        document.querySelectorAll('.decrement').forEach(button => {
-            button.addEventListener('click', function () {
-                const product = this.closest('.product');
-                const quantityInput = product.querySelector('.quantity');
-                if (parseInt(quantityInput.value) > 1) {
-                    quantityInput.value = parseInt(quantityInput.value) - 1;
-                    updateQuantity(product, parseInt(quantityInput.value));  // Call updateQuantity with the new value
-                }
-            });
-        });
-
-        document.querySelectorAll('.quantity').forEach(input => {
-            input.addEventListener('change', function () {
-                const product = this.closest('.product');
-                updateQuantity(product, parseInt(this.value));  // Update quantity when manually changed
-            });
-        });
-
-        document.querySelectorAll('.product-checkbox').forEach(checkbox => {
-            checkbox.addEventListener('change', updateTotal);
-        });
-
-        document.querySelector('#select-all').addEventListener('change', function () {
-            const isChecked = this.checked;
-            document.querySelectorAll('.product-checkbox').forEach(checkbox => {
-                checkbox.checked = isChecked;
-            });
-            updateTotal();
-        });
-
-        updateTotal();  // Initial calculation on page load
-    });
-</script>
-
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
 </head>
 <body class="bg-gray-100">
     <header class="bg-[#0066AD] text-white p-4 flex justify-between items-center">
@@ -107,18 +147,12 @@
             </a>
         </div>
         <div class="flex items-center space-x-4">
-            <div class="flex items-center">
-                <a href="/account_profile">
-                    <a href="/account_profile">
-                        <img src="{{ url_for('static', filename=customer.avatar_path) if customer and customer.avatar_path else url_for('static', filename='images/user.png') }}" 
-                        alt="User avatar" 
-                        class="rounded-full h-8 w-8"/>
-                    </a>
-                </a>
-                <a href="/account_profile">
-                    <span class="ml-2">{{ customer.cust_name }}</span>
-                </a>
-            </div>
+            <a href="/account_profile">
+                <img src="{{ url_for('static', filename=customer.avatar_path) if customer and customer.avatar_path else url_for('static', filename='images/user.png') }}" 
+                    alt="User avatar" 
+                    class="rounded-full h-8 w-8"/>
+            </a>
+            <a href="/account_profile" class="bg-blue-500 text-white px-4 py-2 rounded-md">{{ customer.cust_name }}</a>
         </div>
     </header>
     <main class="max-w-6xl mx-auto mt-4 mb-24">
@@ -157,7 +191,7 @@
             <div class="ml-auto">
                 <span class="font-bold">Total payment (<span id="total-items">0</span> products):</span>
                 <span class="text-red-600 font-bold" id="total">$0.00</span>
-                <button class="bg-red-600 text-white p-2 rounded ml-4" onclick="window.location.href='/place_order'">Checkout</button>
+                <button class="bg-red-600 text-white p-2 rounded ml-4" onclick="redirectToPlaceOrder()">Checkout</button>
             </div>
         </div>
     </main>

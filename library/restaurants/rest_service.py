@@ -5,6 +5,9 @@ def get_all_restaurants():
     try:
         restaurants = Restaurant.query.all()
         
+        if not restaurants:
+            print("No restaurants found in the database.")  # Log if the database is empty
+
         restaurants_list = [{
             'id': restaurant.id,
             'title': restaurant.rest_name,
@@ -15,7 +18,9 @@ def get_all_restaurants():
         return jsonify(restaurants_list)
     
     except Exception as e:
+        print(f"Error fetching restaurants: {e}")  # Log the exact error
         return jsonify({"message": "Error fetching restaurants"}), 500
+
 
 
 def fetch_restaurant_items(restaurant_id):  

@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
@@ -17,37 +18,40 @@
             </a>
         </div>
         <div class="flex items-center space-x-4">
-            <div class="flex items-center">
-                <img alt="User avatar" class="h-10 rounded-full" height="40" src="{{ url_for('static', filename=customer.avatar_path) }}" width="40"/>
-                <span class="text-white ml-2">{{ customer.cust_name }}</span>
-            </div>
+            <a href="/account_profile">
+                <img src="{{ url_for('static', filename=customer.avatar_path) if customer and customer.avatar_path else url_for('static', filename='images/user.png') }}" 
+                     alt="User avatar" 
+                     class="rounded-full h-8 w-8"/>
+            </a>
+            <a href="/account_profile" class="bg-blue-500 text-white px-4 py-2 rounded-md">{{ customer.cust_name }}</a>
         </div>
     </header>
+
     <main class="max-w-5xl mx-auto mt-4 bg-white p-6 rounded-lg shadow">
+        <!-- Shipping Information Section -->
         <section class="mb-6">
-            <h2 class="text-xl font-bold mb-2">Shipping Address</h2>
+            <h2 class="text-xl font-bold mb-2">Shipping Information</h2>
             <div class="flex items-center mb-2">
-                <!-- Person Icon -->
                 <i class="fas fa-user text-blue-500 mr-2"></i>
                 <p class="ml-2">{{ customer.cust_name }}</p>
             </div>
             <div class="flex items-center mb-2">
-                <!-- Phone Icon -->
                 <i class="fas fa-phone text-green-500 mr-2"></i>
                 <p class="ml-2">{{ customer.contact_number }}</p>
             </div>
             <div class="flex items-center">
-                <!-- Map Marker Icon for Address -->
                 <i class="fas fa-map-marker-alt text-red-500 mr-2"></i>
                 <span class="ml-2">{{ customer.address }}</span>
             </div>
         </section>
+
+        <!-- Products Section -->
         <section>
             <h2 class="text-xl font-bold mb-4">Products</h2>
             <div class="border-t border-b py-4">
                 {% for item in items %}
                 <div class="flex items-center mb-4">
-                    <img alt="{{ item.item_name }}" class="h-20 w-20 object-cover mr-4" src="{{item.image_url}}" width="80" height="80"/>
+                    <img alt="{{ item.item_name }}" class="h-20 w-20 object-cover mr-4" src="{{ item.image_url }}" width="80" height="80"/>
                     <div>
                         <p>{{ item.item_name }}</p>
                     </div>
@@ -62,16 +66,17 @@
                 {% endfor %}
             </div>
         </section>
-        <section class="mt-6">
-            <div class="text-right">
-                <p class="text-lg font-bold">Total Price:
-                    <span class="text-red-500">₫{{ "{:,.0f}".format(total_price) }}</span>
-                </p>
-                <button class="mt-4 bg-[#0066AD] text-white px-4 py-2 rounded" onclick="placeOrder()">Place Order</button>
-            </div>
+
+        <!-- Total Price and Place Order Button -->
+        <section class="mt-6 text-right">
+            <p class="text-lg font-bold">Total Price:
+                <span class="text-red-500">₫{{ "{:,.0f}".format(total_price) }}</span>
+            </p>
+            <button class="bg-[#0066AD] text-white px-4 py-2 rounded" onclick="finalizeOrder()">Place Order</button>
         </section>
     </main>
-    <!-- Modal -->
+
+    <!-- Order Success Modal -->
     <div id="orderModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center hidden">
         <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
             <h2 class="text-xl font-bold mb-4 text-green-500">Order Successful</h2>
@@ -79,26 +84,36 @@
             <button class="bg-[#0066AD] text-white px-4 py-2 rounded mt-4" onclick="closeModal()">Close</button>
         </div>
     </div>
+
     <script>
-        function placeOrder() {
-            // Send an AJAX request to confirm the order
-            fetch('/api/place_order', {
-                method: 'POST'
+        function finalizeOrder() {
+            fetch('/api/cart/place_order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // Show success modal
-                    document.getElementById('orderModal').classList.remove('hidden');
+                    window.location.href = '/order_details';
+                } else {
+                    alert("Failed to place the order. Please try again.");
                 }
             })
             .catch(error => console.error('Error:', error));
         }
 
+
+
         function closeModal() {
             document.getElementById('orderModal').classList.add('hidden');
-            window.location.href = '/';  // Redirect to home or order summary page
+            window.location.href = '/';
         }
+
+        document.getElementById('orderModal').addEventListener('click', function(event) {
+            if (event.target === this) closeModal();
+        });
     </script>
 </body>
 </html>
