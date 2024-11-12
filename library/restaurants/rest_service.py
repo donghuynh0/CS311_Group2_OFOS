@@ -6,7 +6,7 @@ def get_all_restaurants():
         restaurants = Restaurant.query.all()
         
         if not restaurants:
-            print("No restaurants found in the database.")  # Log if the database is empty
+            print("No restaurants found in the database.")  
 
         restaurants_list = [{
             'id': restaurant.id,

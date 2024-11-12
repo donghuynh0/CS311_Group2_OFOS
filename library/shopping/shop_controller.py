@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request, session, render_template, redirec
 from .shop_service import CartService
 from library.model import Cart, RestaurantItem, Customer, Order, OrderItem, DeliveryPerson
 from library.customer.cust_service import getCustomer
+from library.shopping.shop_service import CartService
 from library.extension import db
 from functools import wraps
 import random
@@ -214,8 +215,9 @@ def order_details():
     if not orders:
         return redirect('/cart')  # Redirect if no matching orders are found
 
-    # Assume the same customer for all orders (if this assumption holds true)
     customer = orders[0].customer
+    cust_id = session.get('cust_id')
+    total_quantity = CartService.get_total_quantity(cust_id)
 
     # Prepare order details for each order
     order_details_list = []
@@ -229,11 +231,12 @@ def order_details():
                 'item_price': item.item_price,
                 'quantity': item.quantity,
                 'subtotal': item.item_price * item.quantity,
-                'image_url': item.restaurant_item.logo
+                'image_url': item.restaurant_item.logo,
+                'restaurant_name': item.restaurant_item.restaurant.rest_name,
+                'restaurant_id': item.restaurant_item.restaurant.id
             } 
             for item in order.order_items
         ]
-        print(items)
 
         total_price = sum(item['subtotal'] for item in items)
 
@@ -245,7 +248,8 @@ def order_details():
             'total_price': total_price
         })
 
-    return render_template('order_details.html', orders=order_details_list, customer=customer)
+    return render_template('order_details.html', orders=order_details_list, customer=customer, total_quantity=total_quantity)
+
 
 
 

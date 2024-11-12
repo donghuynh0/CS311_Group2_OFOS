@@ -5,6 +5,7 @@ class CartService:
     @staticmethod
     def add_to_cart(cust_id, item_id, quantity):
         existing_cart_item = Cart.query.filter_by(cust_id=cust_id, item_id=item_id).first()
+        print(item_id)
         if existing_cart_item:
             existing_cart_item.quantity += quantity
         else:
