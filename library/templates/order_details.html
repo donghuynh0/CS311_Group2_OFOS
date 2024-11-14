@@ -89,15 +89,6 @@
                     
                     <div class="space-y-6">
                         {% for item in order.order_items %}
-                        
-                            <!-- Restaurant Name Link -->
-                            <!-- <div class="mt-4 text-center">
-                                <a href="/restaurant/{{ item.restaurant_id }}" class="text-blue-500 font-bold hover:underline">
-                                    
-                                </a>
-                                {{ item.restaurant_name }}
-                            </div> -->
-
                             <div class="bg-white rounded-md shadow p-4 flex items-center">
                                 <img alt="Product Image" class="h-20 w-20 object-cover rounded-md" src="{{ item.image_url }}" />
                                 

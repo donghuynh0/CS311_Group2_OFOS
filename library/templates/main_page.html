@@ -17,8 +17,8 @@
             background-position: center;
             background-attachment: fixed; /* Keeps the background fixed while scrolling */
             background-repeat: no-repeat;
-            min-height: 100vh; /* Ensures the image covers the viewport height */
-            background-blend-mode: darken; /* Blends the background with a darker tone for contrast */
+            min-height: 100vh; 
+            background-blend-mode: darken; 
         }
 </style>
     </style>
@@ -47,8 +47,11 @@
         }
     
         const App = ({ cust_name, avatar_path, total_quantity }) => {
+
             const [restaurants, setRestaurants] = React.useState([]);
-    
+            
+
+            
             React.useEffect(() => {
                 fetch('/api/restaurants')
                     .then(response => response.json())
@@ -61,13 +64,13 @@
     
             return (
                 <div className="text-white">
-                    <header class="bg-[#0066AD] p-1 flex items-center justify-between fixed top-0 left-0 w-full z-50">
+                    <header className="bg-[#0066AD] p-1 flex items-center justify-between fixed top-0 left-0 w-full z-50">
                         <div className="container mx-auto flex justify-between items-center py-2 px-4">
                             <div className="flex items-center">
                                <a href="/">
                                     <img src="/static/images/Logo/Logo 100x100.png" alt="BlackWolf Logo" className="h-12"/>
                                 </a>
-                                <a href="/" class="text-white text-2xl font-bold">
+                                <a href="/" className="text-white text-2xl font-bold">
                                     BlackWolf
                                 </a>
                             </div>

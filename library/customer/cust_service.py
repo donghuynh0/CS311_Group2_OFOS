@@ -42,7 +42,7 @@ def login(form_data):
 def check_session_timeout():
     if 'login_time' in session:
         login_time = datetime.fromisoformat(session['login_time'])
-        expiration_time = login_time + timedelta(minutes=60)  # Set timeout period in minute
+        expiration_time = login_time + timedelta(minutes=120)  # Set timeout period in minute
         if datetime.now() > expiration_time:
             session.pop('cust_id', None)
             session.pop('login_time', None)
